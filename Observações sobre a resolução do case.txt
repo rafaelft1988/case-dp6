@@ -1,0 +1,9 @@
+Olá,
+
+Seguem algumas observações referentes a execução do case:
+
+- Optei pela implementação utilizando o GTM e o Helper por ter costume de utiliza-lo no meu dia-a-dia, principalmente em ambientes que não contém jQuery. Dessa maneira é possível simplificar e padronizar a implementação da coleta, mas não teria problemas em utilizar diretamente o javascript ou o jQuery que está disponível no ambiente.
+
+- Sobre o evento de sucesso do formulário, poderia ter aplicado um event listener para quando o form fosse enviado, mas como tinha acesso aos códigos responsáveis pela aparição dele, optei por adicionar um push ao dataLayer para esse evento. Em um cenário em que existisse a possibilidade de solicitar essa implementação ao desenvolvedor, esse seria o caminho que eu seguiria para tornar o disparo mais consistente e seguro.
+
+

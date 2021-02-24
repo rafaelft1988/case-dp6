@@ -1,0 +1,700 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2021-02-24 14:55:41",
+    "containerVersion": {
+        "path": "accounts/6003255452/containers/40710831/versions/2",
+        "accountId": "6003255452",
+        "containerId": "40710831",
+        "containerVersionId": "2",
+        "name": "Version 2",
+        "container": {
+            "path": "accounts/6003255452/containers/40710831",
+            "accountId": "6003255452",
+            "containerId": "40710831",
+            "name": "case dp6",
+            "publicId": "GTM-KC8BH4C",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1614004731990",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6003255452/containers/40710831/workspaces?apiLink=container"
+        },
+        "tag": [
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "tagId": "3",
+                "name": "Setup Tag",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\n;\n(function () {\n  'use strict';\n  var hasOwnProperty = Object.prototype.hasOwnProperty;\n  var jQuery = window.jQuery;\n  var fn = {};\n  \n  var options = {\n    helperName: 'analyticsHelper',\n    dataLayerName: 'dataLayer',\n    debug: ({{Debug Mode}} || false),\n    waitQueue: true,\n    containerId: ({{Container ID}} || ''),\n    exceptionEvent: 'gtm_dataQuality_event',\n    exceptionCategory: 'GTM Exception',\n    customNamePageview: 'ga_pageview',\n    customNameEvent: 'ga_event',\n    customNameTiming: 'ga_timing',\n    errorSampleRate: 1,\n    gtmCleanup: function (gtmId) {\n      helper.setDataLayer('ecommerce', undefined);\n      helper.setDataLayer('noInteraction', undefined);\n    }\n  };\n  \n  var internal = {\n      sentPageview: false\n  };\n  \n  var helper = {\n    internal: internal,\n    init: init,\n    pageview: pageview,\n    event: event,\n    timing: timing,\n    sanitize: sanitize,\n    getDataLayer: getDataLayer,\n    setDataLayer: setDataLayer,\n    cookie: cookie,\n    getKey: getKey,\n    safeFn: safeFn,\n    fn: fn,\n    options: options\n  };\n  \n  function closest(elm, seletor) {\n    if ('closest' in elm) return elm.closest(seletor);\n    if (typeof jQuery === 'function') return jQuery(elm).closest(seletor)[0];\n  \n    var parent = elm.parentNode;\n  \n    while (parent != document) {\n      if (matches(parent, seletor)) {\n        return parent;\n      }\n      parent = parent.parentNode;\n    }\n    return undefined;\n  }\n  \n  function getCookie(key) {\n    key = '; ' + key + '=';\n    var cookie = '; ' + document.cookie;\n    var index = cookie.indexOf(key);\n    var end;\n    if (index === -1) {\n      return '';\n    }\n    cookie = cookie.substring(index + key.length);\n    end = cookie.indexOf(';');\n    return window.unescape(end === -1 ? cookie : cookie.substring(0, end));\n  }\n  \n  function setCookie(name, value, opts) {\n    var exdate, cookie;\n    opts = opts || {};\n  \n    cookie = name + '=' + window.escape(value);\n    if (opts.exdays) {\n      exdate = new Date();\n      exdate.setDate(exdate.getDate() + opts.exdays);\n      cookie += '; expires=' + exdate.toUTCString();\n    }\n    if (opts.domain) {\n      cookie += '; domain=' + opts.domain;\n    }\n    cookie += '; path=' + (opts.path || '/');\n    return (document.cookie = cookie);\n  }\n  \n  function cookie(name, value, opts) {\n    if (typeof value === 'undefined')\n      return getCookie(name);\n  \n    return setCookie(name, value, opts);\n  }\n  \n  function delegate(id, event, selector, oldHandler, parent) {\n    var method, elm, handler;\n    if (typeof jQuery === 'function') {\n      elm = jQuery(parent || document);\n      handler = safeFn(id, oldHandler, {\n        event: event,\n        selector: selector,\n        immediate: false\n      });\n      if (typeof elm.on === 'function') {\n        return elm.on(event, selector, handler);\n      } else if (typeof elm.delegate === 'function') {\n        return elm.delegate(selector, event, handler);\n      }\n    }\n  \n    if (typeof parent === 'string') {\n      parent = document.querySelectorAll(parent);\n    }\n  \n    if (typeof document.addEventListener === 'function') {\n      method = 'addEventListener';\n    } else {\n      method = 'attachEvent';\n      event = 'on' + event;\n    }\n  \n    handler = function(e) {\n      for (\n        var target = e.target; target && target !== this; target = target.parentNode\n      ) {\n        if (matches(target, selector)) {\n          var handler = safeFn(id, oldHandler, {\n            event: event,\n            selector: selector,\n            immediate: false\n          });\n          handler.call(target, e);\n          break;\n        }\n      }\n    };\n  \n    if (Object.prototype.toString.call(parent) === '[object NodeList]') {\n      for (var parentIndex = 0; parentIndex <= parent.length - 1; parentIndex++) {\n        (parent[parentIndex] || document)[method](event, handler, false);\n      }\n    } else {\n      (parent || document)[method](event, handler, false);\n    }\n  }\n  \n  function find(element, selector) {\n    return element.querySelectorAll(selector);\n  }\n  \n  function flatten(arrs) {\n    var currentArray, currentElement, i, j;\n    var result = [];\n  \n    if (arrs.length === 1) return arrs[0];\n  \n    while (arrs.length > 0) {\n      currentArray = arrs.shift();\n      for (i = 0; currentArray.length > i; i++) {\n        currentElement = currentArray[i];\n        j = 0;\n        while (j < result.length && currentElement !== result[j]) {\n          j += 1;\n        }\n        if (j === result.length) result.push(currentElement);\n      }\n    }\n  \n    return result;\n  }\n  \n  function getKey(key, opt_root) {\n    if (!key || typeof key !== 'string') return undefined;\n  \n    var result = opt_root || window;\n    var splitKey = key.split('.');\n  \n    for (var i = 0; i < splitKey.length && result != null; i++) {\n      if (has(result, splitKey[i])) {\n        result = result[splitKey[i]];\n      } else {\n        return undefined;\n      }\n    }\n    return result;\n  }\n  \n  function has(obj, key) {\n    return hasOwnProperty.call(obj, key);\n  }\n  \n  function hasClass(e, className) {\n    if ('classList' in e) return e.classList.contains(className);\n  \n    return new RegExp('\\\\b' + className + '\\\\b').test(e.className);\n  }\n  \n  function init(opt_options) {\n    options = merge(options, opt_options);\n    expose();\n  }\n  \n  function internalMap(elms, func, exArgs) {\n    var elm, args;\n    var ret = [];\n    for (var index = 0; index < elms.length; index++) {\n      elm = elms[index];\n      if (elm instanceof HTMLElement === false)\n        throw 'internalMap: Esperado elemento HTML';\n      args = [elm].concat(exArgs);\n      ret.push(func.apply(null, args));\n    }\n    return ret;\n  }\n  \n  function log(type, info, obj) {\n    if (options.debug && typeof getKey('console.' + type) === 'function') {\n      console[type](info, obj);\n    }\n  }\n  \n  function matches(elm, seletor) {\n    if ('matches' in elm) return elm.matches(seletor);\n    if (typeof jQuery === 'function') return jQuery(elm).is(seletor);\n  \n    var elms = elm.parentNode.querySelectorAll(seletor);\n  \n    for (var i = 0; i < elms.length; i++) {\n      if (elms[i] === elm) {\n        return true;\n      }\n    }\n    return false;\n  }\n  \n  function merge(obj, obj2) {\n    if (obj2) {\n      for (var key in obj2) {\n        if (has(obj2, key)) {\n          obj[key] = obj2[key];\n        }\n      }\n    }\n    return obj;\n  }\n  \n  function on(id, event, selector, oldCallback, parent) {\n    var i, array, elm, callback;\n  \n    if (parent) return delegate(id, event, selector, oldCallback, parent);\n  \n    callback = safeFn(id, oldCallback, {\n      event: event,\n      selector: selector,\n      immediate: false\n    });\n  \n    if (typeof jQuery === 'function') {\n      elm = jQuery(selector);\n  \n      if (typeof elm.on === 'function') {\n        return elm.on(event, callback);\n      } else if (typeof elm.bind === 'function') {\n        return elm.bind(event, callback);\n      }\n    }\n  \n    if (typeof selector === 'string') {\n      array = document.querySelectorAll(selector);\n    } else if (typeof selector.length === 'undefined' || selector === window) {\n      array = [selector];\n    } else {\n      array = selector;\n    }\n  \n    for (i = 0; i < array.length; i++) {\n      elm = array[i];\n  \n      if (typeof elm.addEventListener === 'function') {\n        elm.addEventListener(event, callback);\n      } else {\n        elm.attachEvent('on' + event, callback);\n      }\n    }\n  }\n  \n  function reduceBool(arr) {\n    var i;\n    for (i = 0; i < arr.length; i++) {\n      if (arr[i]) return true;\n    }\n    return false;\n  }\n  \n  function sanitize(str, opts) {\n    var split, i, spacer;\n  \n    if (!str) return '';\n    opts = opts || {};\n    spacer = typeof opts.spacer === 'string' ? opts.spacer : '_';\n    str = str\n      .toLowerCase()\n      .replace(/^\\s+/, '')\n      .replace(/\\s+$/, '')\n      .replace(/\\s+/g, '_')\n      .replace(/[áàâãåäæª]/g, 'a')\n      .replace(/[éèêëЄ€]/g, 'e')\n      .replace(/[íìîï]/g, 'i')\n      .replace(/[óòôõöøº]/g, 'o')\n      .replace(/[úùûü]/g, 'u')\n      .replace(/[ç¢©]/g, 'c')\n      .replace(/[^a-z0-9_\\-]/g, '_');\n  \n    if (opts.capitalized) {\n      split = str.replace(/^_+|_+$/g, '').split(/_+/g);\n      for (i = 0; i < split.length; i++) {\n        if (split[i]) split[i] = split[i][0].toUpperCase() + split[i].slice(1);\n      }\n      return split.join(spacer);\n    }\n  \n    return str.replace(/^_+|_+$/g, '').replace(/_+/g, spacer);\n  }\n  \n  function text(elm, opts) {\n    var i, text, children;\n    opts = opts || {};\n  \n    if (opts.onlyFirst) {\n      children = elm.childNodes;\n      text = '';\n  \n      for (i = 0; i < children.length; i++) {\n        if (children[i].nodeType === 3) {\n          text += children[i].nodeValue;\n        }\n      }\n    } else {\n      text = elm.innerText || elm.textContent || elm.innerHTML.replace(/<[^>]+>/g, '');\n    }\n  \n    return opts.sanitize ? sanitize(text, opts.sanitize) : text;\n  }\n  \n  function getDataLayer(key) {\n    try {\n      return google_tag_manager[options.containerId].dataLayer.get(key);\n    } catch ($$e) {\n      log('warn', 'Function getDataLayer: Object ' + key + ' is not defined');\n    }\n  }\n  \n  function setDataLayer(key, value) {\n    try {\n      return google_tag_manager[options.containerId].dataLayer.set(key, value);\n    } catch ($$e) {\n      log('warn', $$e);\n    }\n  }\n  \n  internal.eventQueue = [];\n  \n  function event(category, action, label, value, object, id) {\n    try {\n      if (internal.sentPageview === false && options.waitQueue) {\n        log('Info', 'The event (' + arguments + ') has been add to the queue');\n        return internal.eventQueue.push(arguments);\n      }\n  \n      if (value != null && typeof value === 'object') {\n        object = value;\n        value = undefined;\n      } else {\n        object = object || {};\n      }\n  \n      var result = {\n        event: options.customNameEvent,\n        eventCategory: category,\n        eventAction: action,\n        eventValue: value,\n        eventLabel: label,\n        _tag: id\n      };\n  \n      if (options.gtmCleanup) {\n        result.eventCallback = options.gtmCleanup;\n      }\n  \n      log('info', result, object);\n      window[options.dataLayerName].push(merge(result, object));\n    } catch (err) {\n      log('warn', err);\n    }\n  }\n  \n  function localHelperFactory(conf) {\n    var localHelper = {\n      event: function(category, action, label, value, object) {\n        return event(category, action, label, value, object, conf.id);\n      },\n      pageview: function(path, object) {\n        return pageview(path, object, conf.id);\n      },\n      timing: function(category, variable, value, label, object) {\n        return timing(category, variable, value, label, object, conf.id);\n      },\n      safeFn: function(id, callback, opts) {\n        return safeFn(conf.id + ':' + id, callback, opts);\n      },\n      on: function(event, selector, callback, parent) {\n        return on(conf.id, event, selector, callback, parent);\n      },\n      delegate: function(event, selector, callback) {\n        return on(conf.id, event, selector, callback, document.body);\n      },\n      wrap: function(elm) {\n        if (typeof elm === 'object' && elm._type === 'wrapped') {\n          return elm;\n        } else if (typeof elm === 'string') {\n          elm = find(window.document, elm);\n        } else if (elm instanceof HTMLElement) {\n          elm = [elm];\n        } else if ((elm instanceof Array || elm instanceof NodeList) === false) {\n          throw 'wrap: Esperado receber seletor, elemento HTML, NodeList ou Array';\n        }\n  \n        return {\n          _type: 'wrapped',\n          hasClass: function(className, opts) {\n            var arr = internalMap(elm, hasClass, [className]);\n            return opts && opts.toArray ? arr : reduceBool(arr);\n          },\n          matches: function(selector, opts) {\n            var arr = internalMap(elm, matches, [selector]);\n            return opts && opts.toArray ? arr : reduceBool(arr);\n          },\n          closest: function(selector) {\n            return localHelper.wrap(internalMap(elm, closest, [selector]));\n          },\n          text: function(opts) {\n            var arr = internalMap(elm, text, [opts]);\n            return opts && opts.toArray ? arr : arr.join('');\n          },\n          find: function(sel) {\n            var elms = internalMap(elm, find, [sel]);\n            return localHelper.wrap(flatten(elms));\n          },\n          map: function(func, params) {\n            return internalMap(elm, func, params);\n          },\n          on: function(event, parent, callback) {\n            if (typeof parent === 'function') {\n              on(conf.id, event, elm, parent);\n            } else {\n              on(conf.id, event, parent, callback, elm);\n            }\n          },\n          nodes: elm\n        };\n      },\n      sanitize: sanitize,\n      getDataLayer: getDataLayer,\n      setDataLayer: setDataLayer,\n      cookie: cookie,\n      getKey: getKey,\n      id: conf.id,\n      args: conf.args,\n      fn: fn,\n      log: log,\n      _event: conf.event,\n      _selector: conf.selector\n    };\n    return localHelper;\n  }\n  \n  function pageview(path, object, id) {\n    try {\n      var result = {\n        event: options.customNamePageview,\n        path: path,\n        _tag: id\n      };\n  \n      if (options.gtmCleanup) {\n        result.eventCallback = options.gtmCleanup;\n      }\n  \n      log('info', result, object);\n      window[options.dataLayerName].push(merge(result, object));\n    } catch (err) {\n      log('warn', err);\n    }\n  }\n  \n  function safeFn(id, callback, opt) {\n    opt = opt || {};\n    var safe = function() {\n      try {\n        callback.call(\n          this === window ? null : this,\n          localHelperFactory({\n            id: id,\n            args: arguments,\n            event: (typeof opt.event === 'string' && opt.event) || undefined,\n            selector: (typeof opt.selector === 'string' && opt.selector) || undefined\n          })\n        );\n      } catch ($$e) {\n        if (!options.debug) {\n          if (Math.random() <= options.errorSampleRate) {\n            window[options.dataLayerName].push({\n              event: options.exceptionEvent,\n              dataQuality: {\n                category: options.exceptionCategory,\n                action: id,\n                label: String($$e),\n                event: (typeof opt.event === 'string' && opt.event) || undefined,\n                selector: (typeof opt.selector === 'string' && opt.selector) || undefined\n              }\n            });\n          }\n        } else {\n          log('warn', 'Exception: ', {\n            exception: $$e,\n            tag: id,\n            event: (typeof opt.event === 'string' && opt.event) || undefined,\n            selector: (typeof opt.selector === 'string' && opt.selector) || undefined\n          });\n        }\n      }\n    };\n  \n    return opt.immediate === false ? safe : safe();\n  }\n  internal.timingQueue = [];\n  \n  function timing(category, variable, value, label, object, id) {\n    try {\n      if (internal.sentPageview === false && options.waitQueue) {\n        log(\n          'Info',\n          'The timing event (' + arguments + ') has been add to the queue'\n        );\n        return internal.timingQueue.push(arguments);\n      }\n  \n      object = object || {};\n  \n      var result = {\n        event: options.customNameTiming,\n        timingCategory: category,\n        timingVariable: variable,\n        timingValue: value,\n        timingLabel: label,\n        _tag: id\n      };\n  \n      if (options.gtmCleanup) {\n        result.eventCallback = options.gtmCleanup;\n      }\n  \n      log('info', result, object);\n      window[options.dataLayerName].push(merge(result, object));\n    } catch (err) {\n      log('warn', err);\n    }\n  }\n  function expose() {\n    if (window[options.helperName] && !options.overwriteHelper) return;\n    window[options.helperName] = helper;\n  }\n  \n  expose();\n  \n})();\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1614006742596",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "tagId": "12",
+                "name": "GA - Page View",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_PAGEVIEW"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "gaSettings",
+                        "value": "{{GA Settings}}"
+                    }
+                ],
+                "fingerprint": "1614006445125",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "tagId": "13",
+                "name": "GA - Events",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventValue",
+                        "value": "{{eventValue}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "{{eventCategory}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "gaSettings",
+                        "value": "{{GA Settings}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "{{eventAction}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "{{eventLabel}}"
+                    }
+                ],
+                "fingerprint": "1614178291063",
+                "firingTriggerId": [
+                    "11"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "tagId": "15",
+                "name": "GA - Custom - All Pages",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\nanalyticsHelper.safeFn('GA - Custom - All Pages', function(helper)\n  {\n    //botao menu contato e download\n    helper.delegate('click', 'a.menu-lista-contato, a.menu-lista-download', function(helper)\n      {\n        var el = helper.wrap(this);\n        if(el.hasClass('menu-lista-contato'))\n          {\n            helper.event('menu', 'entre_em_contato' , 'link_externo');\n          }\n        else\n          {\n            helper.event('menu', 'download_pdf', 'download_pdf')\n          }\n       });\n  });\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1614178207463",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "setupTag": [
+                    {
+                        "tagName": "Setup Tag",
+                        "stopOnSetupFailure": true
+                    }
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "tagId": "17",
+                "name": "GA - Custom - Analise",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\nanalyticsHelper.safeFn('GA - Custom - Analise', function(helper)\n  {\n    //cards montadoras\n    helper.delegate('click', '.cards-montadoras .card-montadoras', function(helper)\n      {\n        var el = helper.wrap(this);\n        var elName = el.nodes[0].dataset.name;\n        helper.event('analise', 'ver_mais' , elName);\n      });\n});\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1614178257190",
+                "firingTriggerId": [
+                    "16"
+                ],
+                "setupTag": [
+                    {
+                        "tagName": "Setup Tag",
+                        "stopOnSetupFailure": true
+                    }
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "tagId": "19",
+                "name": "GA - Custom - Contato",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\nanalyticsHelper.safeFn('GA - Custom - Contato', function(helper)\n  {\n    //campos contato\n    helper.delegate('change', 'form.contato input', function(helper)\n      {\n        var el = helper.wrap(this);\n        var elId = el.nodes[0].id;\n      if(elId == 'aceito' && el.nodes[0].checked)\n        {\n          helper.event('contato', elId , 'preencheu');\n          \n        }\n      else if(elId != 'aceito')\n        {\n          helper.event('contato', elId, 'preencheu');\n        }\n      });\n  });\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1614013405514",
+                "firingTriggerId": [
+                    "18"
+                ],
+                "setupTag": [
+                    {
+                        "tagName": "Setup Tag",
+                        "stopOnSetupFailure": true
+                    }
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "tagId": "21",
+                "name": "GA - Event - Sucesso Form Contato",
+                "type": "ua",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "nonInteraction",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "overrideGaSettings",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventCategory",
+                        "value": "contato"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_EVENT"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "gaSettings",
+                        "value": "{{GA Settings}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventAction",
+                        "value": "enviado"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventLabel",
+                        "value": "enviado"
+                    }
+                ],
+                "fingerprint": "1614014117352",
+                "firingTriggerId": [
+                    "20"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                }
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "triggerId": "11",
+                "name": "Custom Event - ga_event",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "ga_event"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1614006410986"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "triggerId": "16",
+                "name": "Page View - Analises",
+                "type": "PAGEVIEW",
+                "filter": [
+                    {
+                        "type": "MATCH_REGEX",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Page Path}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "analise"
+                            },
+                            {
+                                "type": "BOOLEAN",
+                                "key": "ignore_case",
+                                "value": "true"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1614010334403"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "triggerId": "18",
+                "name": "Page View - Sobre",
+                "type": "PAGEVIEW",
+                "filter": [
+                    {
+                        "type": "MATCH_REGEX",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Page URL}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "sobre"
+                            },
+                            {
+                                "type": "BOOLEAN",
+                                "key": "ignore_case",
+                                "value": "true"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1614012560530"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "triggerId": "20",
+                "name": "Custom Event - contactFormSent",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "contactFormSent"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1614014113862"
+            }
+        ],
+        "variable": [
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "variableId": "4",
+                "name": "eventCategory",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventCategory"
+                    }
+                ],
+                "fingerprint": "1614006124431",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "variableId": "5",
+                "name": "eventAction",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventAction"
+                    }
+                ],
+                "fingerprint": "1614006140234",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "variableId": "6",
+                "name": "eventLabel",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventLabel"
+                    }
+                ],
+                "fingerprint": "1614006156323",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "variableId": "7",
+                "name": "eventValue",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "eventValue"
+                    }
+                ],
+                "fingerprint": "1614006170216",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "variableId": "8",
+                "name": "custom.waitQueue",
+                "type": "jsm",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "javascript",
+                        "value": "function () {\n  return function () {\n    analyticsHelper.internal.sentPageview = true;\n    while (analyticsHelper.internal.eventQueue.length) {\n      analyticsHelper.event.apply(analyticsHelper, analyticsHelper.internal.eventQueue.shift());\n    }\n    while (analyticsHelper.internal.timingQueue.length) {\n      analyticsHelper.timing.apply(analyticsHelper, analyticsHelper.internal.timingQueue.shift());\n    }\n  };\n}"
+                    }
+                ],
+                "fingerprint": "1614006210065",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "variableId": "9",
+                "name": "const.UAId",
+                "type": "c",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "value",
+                        "value": "UA-12345-6"
+                    }
+                ],
+                "fingerprint": "1614006282866",
+                "formatValue": {}
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "variableId": "10",
+                "name": "GA Settings",
+                "type": "gas",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "cookieDomain",
+                        "value": "auto"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "doubleClick",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setTrackerName",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDebugVersion",
+                        "value": "false"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "fieldsToSet",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "fieldName",
+                                        "value": "forceSSL"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "true"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "fieldName",
+                                        "value": "anonymizeIp"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "true"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "fieldName",
+                                        "value": "hitCallback"
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "{{custom.waitQueue}}"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useHashAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "decorateFormsAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableLinkId",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "{{const.UAId}}"
+                    }
+                ],
+                "fingerprint": "1614006363663"
+            }
+        ],
+        "builtInVariable": [
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "PAGE_URL",
+                "name": "Page URL"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "PAGE_HOSTNAME",
+                "name": "Page Hostname"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "PAGE_PATH",
+                "name": "Page Path"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "REFERRER",
+                "name": "Referrer"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "EVENT",
+                "name": "Event"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "CONTAINER_VERSION",
+                "name": "Container Version"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "DEBUG_MODE",
+                "name": "Debug Mode"
+            },
+            {
+                "accountId": "6003255452",
+                "containerId": "40710831",
+                "type": "CONTAINER_ID",
+                "name": "Container ID"
+            }
+        ],
+        "fingerprint": "1614178492733",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6003255452/containers/40710831/versions/2?apiLink=version"
+    }
+}
